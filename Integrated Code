@@ -1,0 +1,129 @@
+import java.util.Scanner;
+
+/**
+ * Main Menu UI for the SwiftBot macOS Terminal
+ * Uses ANSI escape codes for colors and formatting.
+ */
+public class Main {
+
+    // --- ANSI Color Codes for macOS Terminal ---
+    private static final String RESET = "\u001B[0m";
+    private static final String BOLD = "\u001B[1m";
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String CYAN = "\u001B[36m";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean systemRunning = true;
+
+        // Clear the screen to start fresh
+        clearScreen();
+
+        // ---------------------------------------------------------
+        // INITIAL BOOT SEQUENCE (Runs once)
+        // ---------------------------------------------------------
+        System.out.println("[SpyBotMain v2.1 booting...]");
+        System.out.println(">> Booting Core Systems...");
+        System.out.println(">> Hardware check: SwiftBot API initialized.\n");
+
+        // ---------------------------------------------------------
+        // MAIN MENU LOOP
+        // ---------------------------------------------------------
+        while (systemRunning) {
+            
+            // Print the UI Header
+            System.out.println(BLUE + "=========================================================" + RESET);
+            System.out.println(CYAN + "|   ____  _       _  ___  _____  _____                  |" + RESET);
+            System.out.println(CYAN + "|  / ___|| |     | ||_ _||  ___||_   _|                 |" + RESET);
+            System.out.println(CYAN + "|  \\___ \\| |  _  | | | | | |_     | |                   |" + RESET);
+            System.out.println(CYAN + "|   ___) | | | | | | | | |  _|    | |                   |" + RESET);
+            System.out.println(CYAN + "|  |____/|_|/ \\|_| |___||_|       |_|             " + BLUE + "v2.1" + CYAN + "  |" + RESET);
+            System.out.println(BLUE + "=========================================================" + RESET);
+            
+            // System Status
+            System.out.println(BLUE + "|" + RESET + " [SYSTEM STATUS] : " + GREEN + "ONLINE                                " + BLUE + "|" + RESET);
+            System.out.println(BLUE + "|" + RESET + " [OPERATOR]      : " + YELLOW + "ROOT COMMAND                          " + BLUE + "|" + RESET);
+            System.out.println(BLUE + "=========================================================" + RESET);
+            
+            // Mission List
+            System.out.println(CYAN + "AVAILABLE MISSIONS:" + RESET);
+            System.out.println("  [1] Mastermind");
+            System.out.println("  [2] Zigzag");
+            System.out.println("  [3] SpyBot ");
+            System.out.println("  [4] Draw Shape");
+            System.out.println("  [5] Dance");
+            System.out.println("  [6] Traffic Light");
+            System.out.println(RED + "  [7] System Shutdown" + RESET);
+            System.out.println(BLUE + "=========================================================" + RESET);
+            
+            // Input Prompt
+            System.out.print(BOLD + ">> ENTER MISSION CODE (1-7): " + RESET);
+
+            String choice = scanner.nextLine().trim();
+
+            // Handle user selection
+            switch (choice) {
+                case "1":
+                    System.out.println("\n" + CYAN + ">> Initiating Mastermind Protocol..." + RESET);
+                    // Mastermind.main(args); 
+                    break;
+                case "2":
+                    System.out.println("\n" + CYAN + ">> Initiating Zigzag Navigation..." + RESET);
+                    ZigzagProgram z = new ZigzagProgram();
+                    z.main(args);
+                    break;
+                case "3":
+                    System.out.println("\n" + CYAN + ">> Initiating SpyBot Mission..." + RESET);
+                    SpyBotMain s = new SpyBotMain();
+                    s.main(args);
+                    break;
+                case "4":
+                    System.out.println("\n" + CYAN + ">> Initiating Shape Drawing..." + RESET);
+                    DrawShape d = new DrawShape();
+                    d.main(args);
+                    break;
+                case "5":
+                    System.out.println("\n" + CYAN + ">> Initiating Dance Routine..." + RESET);
+                    Dance dd = new Dance();
+                    try {
+                    dd.main(args);
+                    }catch(InterruptedException e) {
+                    	
+                    }
+                    break;
+                case "6":
+                    System.out.println("\n" + CYAN + ">> Initiating Traffic Light Simulator..." + RESET);
+                    // TrafficLight.main(args);
+                    break;
+                case "7":
+                    System.out.println("\n" + RED + ">> System Shutdown Initiated. Disconnecting... Goodbye." + RESET);
+                    systemRunning = false;
+                    break;
+                default:
+                    System.out.println("\n" + RED + "[ERROR]: Invalid Mission Code. Please type a number from 1 to 7." + RESET);
+                    break;
+            }
+            
+            // Pause before showing the menu again (unless shutting down)
+            if (systemRunning) {
+                System.out.println("\n" + BOLD + ">> Press [ENTER] to return to Main Menu..." + RESET);
+                scanner.nextLine();
+                clearScreen(); // Wipe the screen clean for the next menu load
+            }
+        }
+        
+        scanner.close();
+        System.exit(0);
+    }
+
+    /**
+     * Clears the macOS Terminal screen using ANSI escape codes.
+     */
+    private static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+}
